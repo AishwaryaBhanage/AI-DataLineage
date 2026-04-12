@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light only;
+}
+
+html,
+body {
+  background-color: #f8fafc;
+  color: #0f172a;
+  font-feature-settings: 'cv11', 'ss01';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar — light, subtle */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 999px;
+  border: 2px solid #f8fafc;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+}
+
+/* React Flow overrides for light theme */
+.react-flow__node {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.react-flow__edge-path {
+  stroke: #cbd5e1;
+  stroke-width: 2;
+}
+
+.react-flow__edge.animated .react-flow__edge-path {
+  stroke-dasharray: 5;
+  animation: dashdraw 0.5s linear infinite;
+}
+
+@keyframes dashdraw {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+.react-flow__attribution {
+  display: none;
+}
+
+/* Code blocks */
+code,
+pre {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+}
+
+pre {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  overflow-x: auto;
+  color: #0f172a;
+}

@@ -1,0 +1,75 @@
+# ─── Secrets — NEVER ship these to prod ─────────────────────────────────────
+.env
+.env.*
+*.pem
+*.key
+secrets/
+
+# ─── Python cruft ────────────────────────────────────────────────────────────
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# ─── Git ─────────────────────────────────────────────────────────────────────
+.git/
+.gitignore
+.gitattributes
+
+# ─── Tests and dev tooling ───────────────────────────────────────────────────
+tests/
+.coverage
+htmlcov/
+
+# ─── Documentation and screenshots ───────────────────────────────────────────
+README.md
+*.md
+screenshots/
+docs/
+
+# ─── IDE ─────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# ─── Build artifacts ─────────────────────────────────────────────────────────
+build/
+dist/
+*.egg-info/
+node_modules/
+
+# ─── Generated dbt artifacts ────────────────────────────────────────────────
+# Exclude internal dbt caches but KEEP manifest.json and run_results.json
+# so the bundled demo works out-of-the-box in the deployed container.
+dbt_demo/target/compiled/
+dbt_demo/target/run/
+dbt_demo/target/graph.gpickle
+dbt_demo/target/graph_summary.json
+dbt_demo/target/partial_parse.msgpack
+dbt_demo/target/semantic_manifest.json
+dbt_demo/logs/
+dbt_demo/dbt_packages/
+dbt_demo/.user.yml
+dbt_demo/dev.duckdb
+
+# ─── Logs ───────────────────────────────────────────────────────────────────
+logs/
+*.log
+
+# ─── Database files (dev SQLite — prod uses Postgres) ──────────────────────
+*.db
+*.sqlite
+*.sqlite3
+datalineage.db*
+
+# ─── Docker itself ──────────────────────────────────────────────────────────
+Dockerfile
+.dockerignore
+docker-compose*.yml

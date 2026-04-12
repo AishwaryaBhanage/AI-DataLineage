@@ -1,0 +1,52 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Compile dbt project (needed for tests)
+        run: |
+          cd dbt_demo && dbt compile --profiles-dir . || true
+
+      - name: Run pytest
+        env:
+          ANTHROPIC_API_KEY: sk-ant-dummy-for-ci
+          REQUIRE_API_KEY: "false"
+          DATABASE_URL: "sqlite+aiosqlite:///./test.db"
+        run: |
+          python -m pytest tests/ -v --tb=short
+
+      - name: Verify API starts up
+        env:
+          ANTHROPIC_API_KEY: sk-ant-dummy-for-ci
+          API_KEYS: dl_ci_test_key
+          REQUIRE_API_KEY: "true"
+          DATABASE_URL: "sqlite+aiosqlite:///./test.db"
+        run: |
+          # Start the server in the background, verify /health responds, stop it
+          python -m uvicorn app.api.main:app --host 0.0.0.0 --port 8000 &
+          SERVER_PID=$!
+          sleep 3
+          curl -fsS http://localhost:8000/api/v1/health || (kill $SERVER_PID; exit 1)
+          kill $SERVER_PID

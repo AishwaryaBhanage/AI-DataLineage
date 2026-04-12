@@ -1,30 +1,66 @@
 # Python
 venv/
+.venv/
 __pycache__/
 *.pyc
 *.pyo
 .Python
 *.egg-info/
-dist/
 build/
 
-# Environment / secrets
+# Environment / secrets — never commit these
 .env
 *.env
+!.env.example
 
-# dbt artifacts (generated, not source)
-dbt_demo/target/
+# dbt artifacts
+# Exclude internal caches but keep manifest.json + run_results.json
+# so the bundled demo works inside the Docker image
+dbt_demo/target/compiled/
+dbt_demo/target/run/
+dbt_demo/target/graph.gpickle
+dbt_demo/target/graph_summary.json
+dbt_demo/target/partial_parse.msgpack
+dbt_demo/target/semantic_manifest.json
 dbt_demo/logs/
+dbt_demo/dbt_packages/
 dbt_demo/.user.yml
+# DuckDB local warehouse files (generated when running dbt)
+*.duckdb
+*.duckdb.wal
+dbt_demo/dev.duckdb
+
+# Frontend — node_modules and build output
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.cache/
+node_modules/
 
 # OS
 .DS_Store
 *.swp
+Thumbs.db
 
 # IDE
 .vscode/
 .idea/
+*.sublime-*
 
 # Logs
 logs/
 *.log
+
+# Database files (dev SQLite)
+*.db
+*.sqlite
+*.sqlite3
+datalineage.db*
+
+# pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Claude Code memory
+.claude/memory/
