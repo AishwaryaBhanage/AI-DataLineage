@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { Activity, AlertCircle, CheckCircle2 } from 'lucide-react'
+import { Activity, AlertCircle, CheckCircle2, Lock, KeyRound } from 'lucide-react'
 import { api } from '@/lib/api'
 import { useSettings } from '@/lib/store'
 import { cn } from '@/lib/utils'
@@ -57,16 +57,26 @@ export function Header({ title, subtitle }: HeaderProps) {
       </div>
 
       <div className="flex items-center gap-3">
-        {/* API key badge */}
+        {/* Auth status badge — shows auth state without exposing the key */}
         <div
           className={cn(
-            'px-3 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-wide',
+            'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold uppercase tracking-wide',
             apiKey
-              ? 'bg-slate-100 text-slate-700'
+              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
               : 'bg-amber-50 text-amber-700 border border-amber-200',
           )}
         >
-          {apiKey ? `Key: ${apiKey.slice(0, 10)}...` : 'No API key'}
+          {apiKey ? (
+            <>
+              <Lock className="w-3 h-3" />
+              Authenticated
+            </>
+          ) : (
+            <>
+              <KeyRound className="w-3 h-3" />
+              No API key
+            </>
+          )}
         </div>
 
         {/* Health indicator */}

@@ -64,3 +64,6 @@ htmlcov/
 
 # Claude Code memory
 .claude/memory/
+
+# Copilot manifest with embedded secrets (don't commit)
+copilot/api/manifest.yml
