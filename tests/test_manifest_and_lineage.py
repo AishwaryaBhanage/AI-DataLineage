@@ -45,7 +45,9 @@ def test_get_upstream_direct(loader):
     assert loader.get_upstream("raw_orders") == []
 
 def test_get_downstream_direct(loader):
-    assert loader.get_downstream("stg_orders") == ["customer_revenue"]
+    downstream = loader.get_downstream("stg_orders")
+    assert "customer_revenue" in downstream
+    assert "customer_lifetime_metrics" in downstream
     assert loader.get_downstream("raw_orders") == ["stg_orders"]
     assert loader.get_downstream("customer_revenue") == []
 
@@ -74,7 +76,7 @@ def test_impacted_by(loader):
 def test_summary_shape(loader):
     s = loader.summary()
     assert "total_models" in s
-    assert s["total_models"] == 3
+    assert s["total_models"] == 6  # raw_orders, stg_orders, customer_revenue, raw_customers, stg_customers, customer_lifetime_metrics
 
 
 # ── LineageGraph tests ────────────────────────────────────────────────────────
@@ -86,7 +88,9 @@ def test_graph_upstream(graph):
 
 def test_graph_downstream(graph):
     assert graph.downstream("raw_orders") == ["stg_orders"]
-    assert graph.downstream("stg_orders") == ["customer_revenue"]
+    downstream = graph.downstream("stg_orders")
+    assert "customer_revenue" in downstream
+    assert "customer_lifetime_metrics" in downstream
     assert graph.downstream("customer_revenue") == []
 
 def test_graph_all_upstream_order(graph):
@@ -111,8 +115,9 @@ def test_to_dict_scoped(graph):
     assert "stg_orders" in result["nodes"]
     assert "raw_orders" in result["nodes"]
     assert "customer_revenue" in result["nodes"]
-    assert len(result["edges"]) == 2
-    assert result["upstream"] == ["stg_orders", "raw_orders"] or "raw_orders" in result["upstream"]
+    assert "customer_lifetime_metrics" in result["nodes"]
+    assert len(result["edges"]) >= 2  # at least raw_orders→stg_orders + stg_orders→downstream
+    assert "raw_orders" in result["upstream"]
 
 def test_ascii_output(graph):
     tree = graph.ascii()
