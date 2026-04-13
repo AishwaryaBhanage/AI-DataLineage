@@ -7,6 +7,9 @@ An AI-powered debugger that ingests broken dbt models, reconstructs pipeline
 lineage, and produces root-cause diagnoses with auto-corrected SQL - turning
 30-minute debugging sessions into a 4-second LLM call.
 
+Deployed:
+Link: https://bit.ly/datalineage-ai
+
 ---
 
 ## Why this exists
