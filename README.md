@@ -1,10 +1,10 @@
-# DataLineage AI — LLM-powered dbt Pipeline Debugger
+# DataLineage AI - LLM-powered dbt Pipeline Debugger
 
 > **Student Project** · Aishwarya Bhanage · 116556145
 > LLM course final project · Stony Brook University
 
 An AI-powered debugger that ingests broken dbt models, reconstructs pipeline
-lineage, and produces root-cause diagnoses with auto-corrected SQL — turning
+lineage, and produces root-cause diagnoses with auto-corrected SQL - turning
 30-minute debugging sessions into a 4-second LLM call.
 
 ---
