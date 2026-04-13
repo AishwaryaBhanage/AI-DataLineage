@@ -181,14 +181,25 @@ def _build_user_prompt(
     lineage_chain = " → ".join(failure.all_upstream_names[::-1] + [failure.failed_model]) \
         if failure.all_upstream_names else failure.failed_model
 
-    error_block = (
-        f"Type: {parsed_error.error_type.value}\n"
-        f"Column: {parsed_error.column or 'N/A'}\n"
-        f"Relation: {parsed_error.relation or 'N/A'}\n"
-        f"Line: {parsed_error.line_number or 'N/A'}\n"
-        f"Warehouse candidates: {parsed_error.candidates or 'none'}\n"
-        f"Raw message:\n{parsed_error.raw_text[:600]}"
-    ) if parsed_error and parsed_error.raw_text else f"Raw message:\n{failure.error_message[:600]}"
+    has_error = (parsed_error and parsed_error.raw_text.strip()) or failure.error_message.strip()
+
+    if has_error:
+        error_block = (
+            f"Type: {parsed_error.error_type.value}\n"
+            f"Column: {parsed_error.column or 'N/A'}\n"
+            f"Relation: {parsed_error.relation or 'N/A'}\n"
+            f"Line: {parsed_error.line_number or 'N/A'}\n"
+            f"Warehouse candidates: {parsed_error.candidates or 'none'}\n"
+            f"Raw message:\n{parsed_error.raw_text[:600]}"
+        ) if parsed_error and parsed_error.raw_text else f"Raw message:\n{failure.error_message[:600]}"
+    else:
+        error_block = (
+            "NO ERROR WAS REPORTED by the warehouse for this model.\n"
+            "The model executed successfully. Your job is to VALIDATE whether\n"
+            "the SQL is correct by checking all column references against the\n"
+            "upstream models. If all columns exist upstream, set query_is_valid\n"
+            "to true. If you find column mismatches, set it to false and explain."
+        )
 
     parsed_block = (
         f"Tables referenced: {parsed_sql.tables}\n"
