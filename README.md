@@ -484,12 +484,9 @@ end-to-end behavior.
 - **SQLite in prod** — fine for a beta container, but history is lost
   on restart. Migrating to Postgres is a one-line config change.
 - **No streaming responses** — agentic mode polls rather than streams.
-- **English-only prompts** — the LLM prompts are in English.
 - **No local LLM mode yet** — currently Anthropic-only. The code has
   one integration point (`app/services/llm_analyzer.py`) that could be
   extended to support Ollama or AWS Bedrock.
-- **No custom domain in the sample deploy** — uses the default
-  `*.awsapprunner.com` URL. Route 53 + ACM would take ~30 minutes extra.
 
 ---
 
